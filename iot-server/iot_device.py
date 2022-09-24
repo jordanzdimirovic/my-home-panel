@@ -1,7 +1,10 @@
 import asyncio
 from typing import Dict
+
 import kasa
 from kasa import Discover, DeviceType as KasaDeviceType
+
+from pywizlight import discovery as wiz_discovery, wizlight
 
 from iot_cmd import IOTCommand, SwitchCommand
 
@@ -49,6 +52,22 @@ async def exec_kasaplug(kasa_dev: kasa.SmartPlug, iot_cmd: IOTCommand):
 
     else:
         raise ValueError(f"Kasa plug doesn't support command type: '{type(iot_cmd)}'")
+
+#endregion
+
+#region WIZ SMART LIGHTBULBS
+
+async def discover_wizlights(broadcast_ip: str):
+    # Find all wizlights
+    wizlights = await wiz_discovery.discover_lights(broadcast_space=broadcast_ip)
+    return wizlights
+
+async def info_wizlight(dev: wizlight):
+    # Get info
+    return {
+        "information": await dev.getUserConfig()
+    }
+
 
 #endregion
 
