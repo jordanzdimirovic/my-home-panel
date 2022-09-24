@@ -8,12 +8,16 @@ import binascii
 import os
 import sys
 import threading, asyncio
-from typing import Dict
+from asyncio import coroutine
+from typing import Coroutine, Dict
 
 from iot_device import SUPPORTED_DEVICE_FAMILIES, discovery_map, status_map, info_map, exec_map
 
-
 IOT_VALID_DEVICE_FINDS = ["kasaplug", "wizlight"]
+
+def run_coroutine(corr: Coroutine):
+    # Get new event loop and call
+    asyncio.new_event_loop().run_until_complete(corr)
 
 class IOTDeviceHub():
     def __init__(self, broadcast_ip: str = "255.255.255.255", **enabled_families):

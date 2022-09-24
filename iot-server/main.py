@@ -13,8 +13,9 @@ if sys.version_info[0] == 3 and sys.version_info[1] >= 8 and sys.platform.starts
 
 server = Flask(__name__)
 
-from iot_hub import IOTDeviceHub
+from iot_hub import IOTDeviceHub, run_coroutine
 from iot_cmd import SUPPORTED_COMMAND_TYPES, SwitchCommand, ensure_params_satisfy
+
 
 from kasa import SmartPlug as KasaSmartPlug
 
@@ -26,7 +27,7 @@ iot_find = IOTDeviceHub("192.168.1.255", kasaplug=True)
 
 @server.route("/refresh", methods=["GET"])
 def perform_refresh():
-    asyncio.run(iot_find.discover_all())
+    run_coroutine(iot_find.discover_all())
     return "Done.", 200
 
 @server.route("/catalog", methods=["GET"])
@@ -72,7 +73,7 @@ def perform_cmd(cmd_type: str, device_id: str):
     else:
         return jsonify({"reason": f"Command '{cmd_type}' not found"}), 400
 
-    return jsonify(asyncio.run(iot_find.exec_cmd(fam, dev, cmd))), 200
+    return jsonify(run_coroutine(iot_find.exec_cmd(fam, dev, cmd))), 200
 
 
 # Run refresh once
