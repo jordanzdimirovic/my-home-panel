@@ -69,9 +69,25 @@ async def info_wizlight(dev: wizlight):
     # Get info
     print("Getting wizlight info...")
     return {
-        "information": await dev.getUserConfig()
+        "ip": dev.ip,
+        "mac": await dev.getMac()
     }
 
+async def status_wizlight(dev: wizlight):
+    # Perform update
+    devstate = await dev.updateState()
+
+    # Get colours
+    col = devstate.get_rgb()
+
+    return {
+        "brightness": devstate.get_brightness() / 255,
+        "colour": {
+            "r": col[0],
+            "g": col[1],
+            "b": col[2]
+        }
+    }
 
 #endregion
 
