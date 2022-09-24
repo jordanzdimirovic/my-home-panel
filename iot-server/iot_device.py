@@ -105,7 +105,8 @@ info_map = {
 }
 
 status_map = {
-    "kasaplug": status_kasaplug
+    "kasaplug": status_kasaplug,
+    "wizlight": status_wizlight
 }
 
 exec_map = {
