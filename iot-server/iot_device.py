@@ -60,8 +60,10 @@ async def exec_kasaplug(kasa_dev: kasa.SmartPlug, iot_cmd: IOTCommand):
 async def discover_wizlight(broadcast_ip: str):
     # Find all wizlights
     print("Discovering wizlights...")
-    wizlights = await wiz_discovery.discover_lights(broadcast_space=broadcast_ip)
-    return wizlights
+    wizlight_lst = await wiz_discovery.discover_lights(broadcast_space=broadcast_ip)
+    
+    # Use IP as key
+    return {light_obj.ip: light_obj for light_obj in wizlight_lst}
 
 async def info_wizlight(dev: wizlight):
     # Get info
