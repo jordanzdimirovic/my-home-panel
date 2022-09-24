@@ -81,7 +81,9 @@ async def status_wizlight(dev: wizlight):
     col = devstate.get_rgb()
 
     return {
+        "status": "ON" if devstate.get_state() else "OFF",
         "brightness": devstate.get_brightness() / 255,
+        "colour_preset": devstate.get_colortemp(),
         "colour": {
             "r": col[0],
             "g": col[1],
