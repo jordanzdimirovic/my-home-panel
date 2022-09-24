@@ -59,11 +59,13 @@ async def exec_kasaplug(kasa_dev: kasa.SmartPlug, iot_cmd: IOTCommand):
 
 async def discover_wizlights(broadcast_ip: str):
     # Find all wizlights
+    print("Discovering wizlights...")
     wizlights = await wiz_discovery.discover_lights(broadcast_space=broadcast_ip)
     return wizlights
 
 async def info_wizlight(dev: wizlight):
     # Get info
+    print("Getting wizlight info...")
     return {
         "information": await dev.getUserConfig()
     }
@@ -71,7 +73,7 @@ async def info_wizlight(dev: wizlight):
 
 #endregion
 
-SUPPORTED_DEVICE_FAMILIES = ("kasaplug",)
+SUPPORTED_DEVICE_FAMILIES = ("kasaplug", "wizlight")
 
 # Dicts (intended to be imported)
 discovery_map = {

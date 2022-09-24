@@ -23,7 +23,7 @@ from kasa import SmartPlug as KasaSmartPlug
 loop = asyncio.new_event_loop()
 
 # Create finder instance
-iot_find = IOTDeviceHub("192.168.1.255", kasaplug=True)
+iot_find = IOTDeviceHub("192.168.1.255", kasaplug=True, wizlight=True)
 
 @server.route("/refresh", methods=["GET"])
 def perform_refresh():
