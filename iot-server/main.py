@@ -20,14 +20,14 @@ from iot_cmd import SUPPORTED_COMMAND_TYPES, SwitchCommand, ensure_params_satisf
 from kasa import SmartPlug as KasaSmartPlug
 
 # Main loop
-asyncio.set_event_loop(asyncio.new_event_loop())
+loop = asyncio.new_event_loop()
 
 # Create finder instance
 iot_find = IOTDeviceHub("192.168.1.255", kasaplug=True, wizlight=True)
 
 @server.route("/refresh", methods=["GET"])
 def perform_refresh():
-    asyncio.get_event_loop().run_until_complete(iot_find.discover_all())
+    loop.run_until_complete(iot_find.discover_all())
     return "Done.", 200
 
 @server.route("/catalog", methods=["GET"])
@@ -41,7 +41,7 @@ def get_status(device_id: str):
     
     fam = iot_find.id_fam_registry[device_id]
     dev = iot_find.devices[device_id]
-    return jsonify(asyncio.get_event_loop().run_until_complete(iot_find.get_status(fam, dev))), 200
+    return jsonify(loop.run_until_complete(iot_find.get_status(fam, dev))), 200
 
     
 @server.route("/control/<cmd_type>/<device_id>", methods=["POST"])
@@ -73,7 +73,7 @@ def perform_cmd(cmd_type: str, device_id: str):
     else:
         return jsonify({"reason": f"Command '{cmd_type}' not found"}), 400
 
-    return jsonify(asyncio.get_event_loop().run_until_complete(iot_find.exec_cmd(fam, dev, cmd))), 200
+    return jsonify(loop.run_until_complete(iot_find.exec_cmd(fam, dev, cmd))), 200
 
 
 # Run refresh once
