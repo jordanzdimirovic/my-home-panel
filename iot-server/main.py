@@ -80,4 +80,4 @@ perform_refresh()
 
 #@server.route("/control/")
 
-server.run(port=12345)
+server.run(host="0.0.0.0", port=12345)
