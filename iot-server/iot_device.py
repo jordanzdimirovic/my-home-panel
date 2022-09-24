@@ -57,7 +57,7 @@ async def exec_kasaplug(kasa_dev: kasa.SmartPlug, iot_cmd: IOTCommand):
 
 #region WIZ SMART LIGHTBULBS
 
-async def discover_wizlights(broadcast_ip: str):
+async def discover_wizlight(broadcast_ip: str):
     # Find all wizlights
     print("Discovering wizlights...")
     wizlights = await wiz_discovery.discover_lights(broadcast_space=broadcast_ip)
@@ -77,11 +77,13 @@ SUPPORTED_DEVICE_FAMILIES = ("kasaplug", "wizlight")
 
 # Dicts (intended to be imported)
 discovery_map = {
-    "kasaplug": discover_kasaplug
+    "kasaplug": discover_kasaplug,
+    "wizlight": discover_wizlight
 }
 
 info_map = {
-    "kasaplug": info_kasaplug
+    "kasaplug": info_kasaplug,
+    "wizlight": info_wizlight
 }
 
 status_map = {
